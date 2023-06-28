@@ -1,28 +1,60 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable i18next/no-literal-string */
-import { Modal, Box, Typography, styled, IconButton } from '@mui/material'
-import { HeartIcon as HeartOutlineIcon } from '@heroicons/react/24/outline'
+import { Modal, Box, styled } from '@mui/material'
+import {
+  ArrowLeftIcon,
+  HeartIcon as HeartOutlineIcon,
+} from '@heroicons/react/24/outline'
 import { HeartIcon } from '@heroicons/react/24/solid'
-import { Grow } from '@mui/material'
 
 import { isMacLike } from '~/src/utils/platforms/mobile'
 
 import {
-  ArrowPathRoundedSquareIcon,
   ShareIcon as DefaultShareIcon,
   ArrowUpOnSquareIcon,
   CloudArrowDownIcon,
 } from '@heroicons/react/24/outline'
 
-import Picture from '~src/types/Picture'
-import { useState } from 'react'
+import Picture from '~src/types/gallery/Picture'
+import { useAppDispatch, useAppSelector } from '~src/hooks/redux'
+import { isFavoriteImage, toggleAddRemoveFavorite } from '../gallery.slice'
 
 interface DesktopImagePopupProps {
   image: Picture
   open: boolean
   onClose: () => void
+  galleryId: string
 }
+
+const IconButton: React.FC<{
+  children: React.ReactNode
+  onClick: () => void
+}> = ({ children, onClick }) => (
+  <button
+    className="text-white hover:text-primary-500 p-1 cursor-pointer"
+    onClick={onClick}
+  >
+    {children}
+  </button>
+)
+
+const StyledIconButton = styled(IconButton)(
+  ({ theme }) => `
+  svg {
+    width: 2rem;
+    height: 2rem;
+    stroke: white;
+    transition: stroke linear 0.2s;
+  }
+
+  &:hover {
+    svg {
+      stroke: ${theme.palette.primary.main};
+    }
+  }
+`,
+)
 
 const StyledModal = styled(Modal)`
   display: flex;
@@ -30,17 +62,11 @@ const StyledModal = styled(Modal)`
   align-items: center;
 `
 
-const StyledContainer = styled(Box)`
-  height: 100%;
+const StyledImageContainer = styled(Box)`
+  flex: 1 1 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-
-  &:focus-visible {
-    border: 0;
-    outline: none;
-  }
 `
 
 const StyledImage = styled('img')`
@@ -49,20 +75,10 @@ const StyledImage = styled('img')`
 `
 
 const StyledActionButtons = styled(Box)`
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  svg {
-    width: 2rem;
-    height: 2rem;
-    stroke: white;
-  }
+  padding: 0.5rem 1rem;
 `
 
 const StyledActionButtonsInner = styled(Box)`
@@ -77,14 +93,14 @@ const DesktopImagePopup: React.FC<DesktopImagePopupProps> = ({
   image,
   open,
   onClose,
+  galleryId,
 }) => {
-  const [isFavorite, setFavorite] = useState(false)
-
-  const [rotation, setRotation] = useState(0)
+  const isFavorite = useAppSelector(state =>
+    isFavoriteImage(state, galleryId, image),
+  )
+  const dispatch = useAppDispatch()
 
   const Icon = isFavorite ? HeartIcon : HeartOutlineIcon
-
-  const isHorizontal = rotation % 180 === 0
 
   const ShareIcon = isMacLike() ? ArrowUpOnSquareIcon : DefaultShareIcon
 
@@ -114,24 +130,42 @@ const DesktopImagePopup: React.FC<DesktopImagePopupProps> = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <StyledContainer onClick={onClose}>
-        <StyledActionButtons>
+      <div
+        className="w-full h-full flex flex-col items-stretch justify-center focus:border-0 focus:outline-none"
+        role="button"
+        tabIndex={0}
+        onClick={onClose}
+      >
+        <div className="flex-[0_0_auto] flex items-center justify-center px-4 py-1">
+          <Box sx={{ flex: '1 1 100%' }}>
+            <IconButton onClick={onClose}>
+              <ArrowLeftIcon className="stroke-current h-9 w-9" />
+            </IconButton>
+          </Box>
           <StyledActionButtonsInner onClick={event => event.stopPropagation()}>
-            <IconButton onClick={() => setFavorite(!isFavorite)}>
+            <IconButton
+              onClick={() =>
+                dispatch(toggleAddRemoveFavorite({ image, galleryId }))
+              }
+            >
               <Icon
-                style={
+                className={`h-9 w-9 ${
                   isFavorite
-                    ? { fill: 'white', stroke: 'transparent' }
-                    : { stroke: 'white' }
-                }
+                    ? 'fill-current stroke-transparent'
+                    : 'stroke-current'
+                } `}
               />
             </IconButton>
-            <IconButton onClick={() => setRotation(rotation + 90)}>
+            {/* <IconButton
+              onClick={() =>
+                dispatch(rotateImage({ image, angle: angle + 90 }))
+              }
+            >
               <ArrowPathRoundedSquareIcon />
-            </IconButton>
+            </IconButton> */}
             {canShare && (
               <IconButton onClick={share}>
-                <ShareIcon />
+                <ShareIcon className="stroke-current h-9 w-9" />
               </IconButton>
             )}
             <a
@@ -139,30 +173,30 @@ const DesktopImagePopup: React.FC<DesktopImagePopupProps> = ({
               target="_blank"
               rel="noreferrer"
               download={image.filename}
+              className="text-white hover:text-primary-500 p-1 cursor-pointer"
             >
-              <CloudArrowDownIcon />
+              <CloudArrowDownIcon className="stroke-current h-9 w-9" />
             </a>
           </StyledActionButtonsInner>
-        </StyledActionButtons>
-        <Grow in>
-          <StyledImage
-            src={image?.url}
-            alt={image?.alt}
-            onClick={event => {
-              event.stopPropagation()
-            }}
-            style={{
-              transform: `rotate(${rotation}deg)`,
-              maxWidth: isHorizontal
-                ? 'calc(100vw - 50px)'
-                : 'calc(90vh - 50px)',
-              maxHeight: isHorizontal
-                ? 'calc(90vh - 50px)'
-                : 'calc(90vw - 50px)',
-            }}
-          />
-        </Grow>
-      </StyledContainer>
+          <Box sx={{ flex: '1 1 100%' }} />
+        </div>
+        <div className="flex-[0_1_100%] flex items-center justify-center relative">
+          <div className="absolute w-full h-full overflow-hidden flex items-center justify-center p-5">
+            <img
+              className="rounded-lg max-w-full max-h-full"
+              src={image?.url}
+              alt={image?.alt}
+              onClick={event => {
+                event.stopPropagation()
+              }}
+            />
+          </div>
+          {/* <Grow in> */}
+          {/*  */}
+          {/* </Grow> */}
+        </div>
+        <Box sx={{ height: '5rem' }} />
+      </div>
     </StyledModal>
   )
 }

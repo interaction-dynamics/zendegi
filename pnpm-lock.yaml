@@ -88,6 +88,9 @@ dependencies:
   i18next-http-backend:
     specifier: ^1.4.0
     version: 1.4.5
+  imagekitio-react:
+    specifier: ^2.0.0
+    version: 2.0.0(react-dom@18.2.0)(react@18.2.0)
   jszip:
     specifier: ^3.10.1
     version: 3.10.1
@@ -95,10 +98,10 @@ dependencies:
     specifier: ^4.17.21
     version: 4.17.21
   lord-icon-element:
-    specifier: ^4.0.3
+    specifier: ^4.1.1
     version: 4.1.1
   lottie-web:
-    specifier: ^5.10.2
+    specifier: ^5.11.0
     version: 5.11.0
   mixpanel-browser:
     specifier: ^2.45.0
@@ -6346,6 +6349,22 @@ packages:
     resolution: {integrity: sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==}
     engines: {node: '>= 4'}
     dev: true
+
+  /imagekit-javascript@1.5.5:
+    resolution: {integrity: sha512-WnEq7zIiYx+bN1fUzLEqSD33xOCEhHpDmlo3SxQkXPiLBnnnLGhBZi583wNhBXP3RB/yQQEKOBeOelnZ7WVgPA==}
+    dev: false
+
+  /imagekitio-react@2.0.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-CBZ8Y43RgzHenqRj3nRA9MZVQbmUATxwFoyfrDXNRomT9i6EabG0582e7zl/cmODAfcSfW0dA8Oyz19HyfP+EA==}
+    peerDependencies:
+      react: ^16.13.1 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      imagekit-javascript: 1.5.5
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /immediate@3.0.6:
     resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}

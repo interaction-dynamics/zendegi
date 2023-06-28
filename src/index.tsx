@@ -13,6 +13,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import App from '~/src/components/App'
 import theme from '~/src/config/theme'
 import '~/src/services/i18n'
+import store from '~/src/services/store'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
@@ -20,10 +21,12 @@ root.render(
   <React.StrictMode>
     <HelmetProvider>
       <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <App />
-        </ThemeProvider>
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <App />
+          </ThemeProvider>
+        </Provider>
       </BrowserRouter>
     </HelmetProvider>
   </React.StrictMode>,

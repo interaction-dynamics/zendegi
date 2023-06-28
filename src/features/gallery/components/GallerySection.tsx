@@ -1,25 +1,26 @@
 import { useRef, useState } from 'react'
-import { Box, Container, styled, Paper, Typography } from '@mui/material'
-import { Masonry } from '@mui/lab'
+import { Box, styled, Paper, Typography } from '@mui/material'
+import { Masonry, type MansoryProps } from '@mui/lab'
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/solid'
 import { ArrowSmallUpIcon } from '@heroicons/react/24/outline'
 
-import Picture from '~/src/types/Picture'
+import Picture from '~src/types/gallery/Picture'
 import useEventListener from '~src/hooks/useEventListener'
+import GalleryDownloadButton from './GalleryDownloadButton'
+import GalleryGroup from '~src/types/gallery/GalleryGroup'
 
-const StyledStickyHeader = styled(Box)<{ isOnTop: boolean }>(
+const StyledStickyHeader = styled(Box)<{ isOnTop: string }>(
   ({ isOnTop }) => `
     display: flex;
     align-items: center;
     position: sticky;
     top: 0;
-    z-index: ${isOnTop ? 30 : 0};
-    padding-top: 1rem;
+    z-index: ${isOnTop === 'true' ? 30 : 0};
     width: 100%;
 `,
 )
 
-const StyledBadge = styled(Box)<{ isOnTop: boolean }>(
+const StyledBadge = styled(Box)<{ isOnTop: string }>(
   ({ isOnTop }) => `
     display: inline-flex;
     align-items: center;
@@ -27,18 +28,20 @@ const StyledBadge = styled(Box)<{ isOnTop: boolean }>(
     z-index: ${isOnTop ? 30 : 0};
     cursor: pointer;
     border-radius: 999rem;
-    background: ${isOnTop ? 'white' : 'transparent'};
+    background: ${isOnTop === 'true' ? 'white' : 'transparent'};
     gap: 0.5rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     box-shadow: ${
-      isOnTop
+      isOnTop === 'true'
         ? 'rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px'
         : 'transparent'
     };
     white-space: nowrap;
 
-    border: ${isOnTop ? '1px solid rgb(229, 231, 235)' : 'transparent'};
+    border: ${
+      isOnTop === 'true' ? '1px solid rgb(229, 231, 235)' : 'transparent'
+    };
 
     &:hover {
       background: rgb(249, 250, 251);
@@ -46,10 +49,10 @@ const StyledBadge = styled(Box)<{ isOnTop: boolean }>(
 `,
 )
 
-const StyledButtons = styled(Box)<{ isOnTop: boolean }>(
+const StyledButtons = styled(Box)<{ isOnTop: string }>(
   ({ isOnTop }) => `
   flex: 1 1 100%;
-  display: ${isOnTop ? 'none' : 'flex'};
+  display: ${isOnTop === 'string' ? 'none' : 'flex'};
 `,
 )
 
@@ -118,21 +121,19 @@ const StyledArrowsPointingOutIcon = styled(ArrowsPointingOutIcon)`
 `
 
 export interface GallerySectionProps {
-  title?: string
-  description?: string
-  images: Picture[]
+  galleryGroup: GalleryGroup
   onImageClick: (image: Picture) => void
   children?: React.ReactNode
+  columns: MansoryProps['columns']
 }
 
 const GallerySection: React.FC<GallerySectionProps> = ({
-  title,
-  description,
-  images,
+  galleryGroup,
   onImageClick,
   children,
+  columns,
 }) => {
-  const topOfSectionRef = useRef<HTMLDivElement>()
+  const topOfSectionRef = useRef<HTMLDivElement>(null)
 
   const titleRef = useRef<HTMLSpanElement>(null)
 
@@ -151,17 +152,16 @@ const GallerySection: React.FC<GallerySectionProps> = ({
     })
   }
 
+  const { title, description, images } = galleryGroup
+
   return (
-    <Box
-      pb={3}
-      pt={2}
-      textAlign="center"
+    <div
+      className="text-center flex flex-col items-center"
       ref={topOfSectionRef}
-      sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
     >
-      <StyledStickyHeader isOnTop={isOnTop} ref={titleRef}>
-        <StyledButtons isOnTop={isOnTop}></StyledButtons>
-        <StyledBadge isOnTop={isOnTop}>
+      <StyledStickyHeader isOnTop={String(isOnTop)} ref={titleRef}>
+        <StyledButtons isOnTop={String(isOnTop)}></StyledButtons>
+        <StyledBadge isOnTop={String(isOnTop)}>
           <StyledIcon sx={{ visibility: 'hidden' }} />
           <Typography
             variant={isOnTop ? 'h3' : 'h2'}
@@ -172,32 +172,43 @@ const GallerySection: React.FC<GallerySectionProps> = ({
           </Typography>
           <StyledIcon sx={{ visibility: isOnTop ? 'visible' : 'hidden' }} />
         </StyledBadge>
-        <StyledButtons isOnTop={isOnTop} justifyContent="flex-end">
-          {children}
+        <StyledButtons isOnTop={String(isOnTop)} justifyContent="flex-end">
+          {images.length > 0 && (
+            <GalleryDownloadButton
+              galleryGroup={{
+                title,
+                images,
+              }}
+            />
+          )}
         </StyledButtons>
       </StyledStickyHeader>
 
       <Box pb={2} />
       {description && <Typography variant="body1">{description}</Typography>}
-      <Masonry columns={3} spacing={2}>
-        {images.map((image, index) => (
-          <StyledImageContainer
-            key={image.url}
-            onClick={() => onImageClick(image)}
-          >
-            <StyledImage
-              src={`${image.url}?w=162&auto=format`}
-              srcSet={`${image.url}?w=162&auto=format&dpr=2 2x`}
-              alt={image.alt}
-              loading="lazy"
-            />
-            <StyledOverlay>
-              <StyledArrowsPointingOutIcon />
-            </StyledOverlay>
-          </StyledImageContainer>
-        ))}
-      </Masonry>
-    </Box>
+      {images.length > 0 ? (
+        <Masonry columns={columns} spacing={2}>
+          {images.map(image => (
+            <StyledImageContainer
+              key={image.url}
+              onClick={() => onImageClick(image)}
+            >
+              <StyledImage
+                src={`${image.url}?w=162&auto=format`}
+                srcSet={`${image.url}?w=162&auto=format&dpr=2 2x`}
+                alt={image.alt}
+                loading="lazy"
+              />
+              <StyledOverlay>
+                <StyledArrowsPointingOutIcon />
+              </StyledOverlay>
+            </StyledImageContainer>
+          ))}
+        </Masonry>
+      ) : (
+        children
+      )}
+    </div>
   )
 }
 

@@ -1,5 +1,7 @@
 import { Box, Typography, styled } from '@mui/material'
 
+import Event from '~src/features/event/types/Event'
+
 const StyledBox = styled(Box)`
   text-align: center;
 `
@@ -51,23 +53,19 @@ const StyledDate = styled(Typography)`
   line-break: strict;
 `
 
-export interface WeddingHeroProps {
-  title: string
-  date?: string
-  location?: string
-  imageUrl?: string
+export interface EventHeroProps {
+  event: Event
 }
 
-const WeddingHero: React.FC<WeddingHeroProps> = ({
-  title,
-  date,
-  location,
-  imageUrl,
-}) => {
+const EventHero: React.FC<EventHeroProps> = ({ event }) => {
+  const { title, location, imageUrl } = event
+
   const [spouseA, spouseB] = title.split('&').map(t => t.trim())
 
+  const date = new Date(event.date)
+
   return (
-    <Box pt={15} mb={6}>
+    <div className="pt-24 mb-24">
       {imageUrl && (
         <StyledBox mb={5} sx={{ display: 'flex', justifyContent: 'center' }}>
           <StyledHeroImage>
@@ -102,7 +100,11 @@ const WeddingHero: React.FC<WeddingHeroProps> = ({
       </StyledBox>
       <StyledBox pt={2}>
         <StyledDate variant="h2" color="primary">
-          {date}
+          {new Intl.DateTimeFormat('en-US', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+          }).format(date)}
         </StyledDate>
       </StyledBox>
       <StyledBox pt={2}>
@@ -110,8 +112,8 @@ const WeddingHero: React.FC<WeddingHeroProps> = ({
           {location}
         </StyledDate>
       </StyledBox>
-    </Box>
+    </div>
   )
 }
 
-export default WeddingHero
+export default EventHero

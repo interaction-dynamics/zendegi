@@ -1,19 +1,8 @@
 /* eslint-disable i18next/no-literal-string */
-import { HeartIcon } from '@heroicons/react/24/outline'
-import { styled, Container, Box, Badge, useTheme } from '@mui/material'
+import { Container, Box, useTheme, Button } from '@mui/material'
+import { HeartIcon } from '@heroicons/react/24/solid'
 
 import Header from '~src/components/molecules/Header'
-
-const StyledBadge = styled(Badge)(
-  ({ theme }) => `
-  & .MuiBadge-badge {
-    top: 27px;
-    right: 5px;
-    background-color: ${theme.palette.primary.light};
-    color: white;
-  }
-`,
-)
 
 export interface DesktopGalleryHeaderProps {
   onOpenFavorites: () => void
@@ -26,10 +15,27 @@ const DesktopGalleryHeader: React.FC<DesktopGalleryHeaderProps> = ({
 
   return (
     <Header>
-      <Container maxWidth="lg" sx={{ display: 'flex', alignItems: 'center' }}>
+      <Container maxWidth="xl" sx={{ display: 'flex', alignItems: 'center' }}>
         <Box sx={{ flex: '1 1 100%' }}></Box>
         <Box sx={{ flex: '0 0 auto' }}>
-          <StyledBadge badgeContent={2}>
+          <Button
+            disableRipple
+            variant="contained"
+            color="primary"
+            sx={{ py: 1, px: 2 }}
+            onClick={onOpenFavorites}
+          >
+            Favoris
+            <HeartIcon
+              style={{
+                stroke: 'white',
+                width: '1.5rem',
+                height: '1.5rem',
+                marginLeft: '0.6rem',
+              }}
+            />
+          </Button>
+          {/* <StyledBadge badgeContent={2}>
             <HeartIcon
               onClick={onOpenFavorites}
               style={{
@@ -39,7 +45,7 @@ const DesktopGalleryHeader: React.FC<DesktopGalleryHeaderProps> = ({
                 cursor: 'pointer',
               }}
             />
-          </StyledBadge>
+          </StyledBadge> */}
         </Box>
       </Container>
     </Header>
