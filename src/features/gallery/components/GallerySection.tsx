@@ -8,6 +8,7 @@ import Picture from '~src/types/gallery/Picture'
 import useEventListener from '~src/hooks/useEventListener'
 import GalleryDownloadButton from './GalleryDownloadButton'
 import GalleryGroup from '~src/types/gallery/GalleryGroup'
+import imagekit from '~src/services/imageKit'
 
 const StyledStickyHeader = styled(Box)<{ isOnTop: string }>(
   ({ isOnTop }) => `
@@ -188,22 +189,34 @@ const GallerySection: React.FC<GallerySectionProps> = ({
       {description && <Typography variant="body1">{description}</Typography>}
       {images.length > 0 ? (
         <Masonry columns={columns} spacing={2}>
-          {images.map(image => (
-            <StyledImageContainer
-              key={image.url}
-              onClick={() => onImageClick(image)}
-            >
-              <StyledImage
-                src={`${image.url}?w=162&auto=format`}
-                srcSet={`${image.url}?w=162&auto=format&dpr=2 2x`}
-                alt={image.alt}
-                loading="lazy"
-              />
-              <StyledOverlay>
-                <StyledArrowsPointingOutIcon />
-              </StyledOverlay>
-            </StyledImageContainer>
-          ))}
+          {images
+            .map(image => ({
+              ...image,
+              previewUrl: imagekit.url({
+                path: image.url,
+                transformation: [
+                  {
+                    width: '400',
+                  },
+                ],
+              }),
+            }))
+            .map(image => (
+              <StyledImageContainer
+                key={image.url}
+                onClick={() => onImageClick(image)}
+              >
+                <StyledImage
+                  src={`${image.previewUrl}?w=162&auto=format`}
+                  srcSet={`${image.previewUrl}?w=162&auto=format&dpr=2 2x`}
+                  alt={image.alt}
+                  loading="lazy"
+                />
+                <StyledOverlay>
+                  <StyledArrowsPointingOutIcon />
+                </StyledOverlay>
+              </StyledImageContainer>
+            ))}
         </Masonry>
       ) : (
         children

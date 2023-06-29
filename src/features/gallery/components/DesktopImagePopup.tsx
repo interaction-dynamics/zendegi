@@ -19,6 +19,7 @@ import {
 import Picture from '~src/types/gallery/Picture'
 import { useAppDispatch, useAppSelector } from '~src/hooks/redux'
 import { isFavoriteImage, toggleAddRemoveFavorite } from '../gallery.slice'
+import imagekit from '~src/services/imageKit'
 
 interface DesktopImagePopupProps {
   image: Picture
@@ -38,48 +39,6 @@ const IconButton: React.FC<{
     {children}
   </button>
 )
-
-const StyledIconButton = styled(IconButton)(
-  ({ theme }) => `
-  svg {
-    width: 2rem;
-    height: 2rem;
-    stroke: white;
-    transition: stroke linear 0.2s;
-  }
-
-  &:hover {
-    svg {
-      stroke: ${theme.palette.primary.main};
-    }
-  }
-`,
-)
-
-const StyledModal = styled(Modal)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const StyledImageContainer = styled(Box)`
-  flex: 1 1 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const StyledImage = styled('img')`
-  transition: all linear 0.25s;
-  border-radius: 0.5rem;
-`
-
-const StyledActionButtons = styled(Box)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-`
 
 const StyledActionButtonsInner = styled(Box)`
   display: flex;
@@ -123,8 +82,12 @@ const DesktopImagePopup: React.FC<DesktopImagePopupProps> = ({
     }
   }
 
+  const imageUrl = imagekit.url({
+    path: image.url,
+  })
+
   return (
-    <StyledModal
+    <Modal
       open={open}
       onClose={onClose}
       aria-labelledby="modal-modal-title"
@@ -184,7 +147,7 @@ const DesktopImagePopup: React.FC<DesktopImagePopupProps> = ({
           <div className="absolute w-full h-full overflow-hidden flex items-center justify-center p-5">
             <img
               className="rounded-lg max-w-full max-h-full"
-              src={image?.url}
+              src={imageUrl}
               alt={image?.alt}
               onClick={event => {
                 event.stopPropagation()
@@ -197,7 +160,7 @@ const DesktopImagePopup: React.FC<DesktopImagePopupProps> = ({
         </div>
         <Box sx={{ height: '5rem' }} />
       </div>
-    </StyledModal>
+    </Modal>
   )
 }
 

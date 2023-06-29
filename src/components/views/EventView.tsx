@@ -33,6 +33,9 @@ import {
   getGalleryById,
 } from '~src/features/gallery/gallery.slice'
 import DesktopImagePopup from '~src/features/gallery/components/DesktopImagePopup'
+import BackButton from '~src/components/molecules/BackButton'
+import { getCurrentUser } from '~src/features/auth/auth.slice'
+import UserMenu from '~src/features/user/components/UserMenu'
 
 const StyledTypography = styled(Typography)`
   color: rgb(107, 114, 128);
@@ -57,18 +60,21 @@ const EventView = () => {
     getFavoriteImages(state, event.galleryId),
   )
 
+  const user = useAppSelector(getCurrentUser)
+
   if (!gallery) return <></>
 
   return (
     <Page>
       <FixedHeader>
         <Header>
-          <div className="self-stretch flex-1 flex items-center max-w-screen-2xl m-auto px-10">
-            <h1 className="font-bold text-xl text-primary-500">Events</h1>
+          <div className="self-stretch flex-1 flex items-center max-w-screen-2xl m-auto px-10 gap-3">
+            {user && <BackButton url="/event" />}
             <div className="flex-1" />
             <Button.Primary onClick={favoritesPopup.open}>
               Favorites
             </Button.Primary>
+            <UserMenu />
           </div>
         </Header>
       </FixedHeader>

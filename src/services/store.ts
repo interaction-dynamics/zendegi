@@ -15,10 +15,12 @@ import gallery, {
   galleryInitialState,
 } from '~/src/features/gallery/gallery.slice'
 import event, { eventInitialState } from '~/src/features/event/event.slice'
+import auth, { authInitialState } from '~/src/features/auth/auth.slice'
 
 export const reducer = {
   gallery,
   event,
+  auth,
   // recipes,
   // auth,
   // settings,
@@ -29,6 +31,8 @@ export const reducer = {
 const initialState = {
   gallery: galleryInitialState,
   event: eventInitialState,
+  auth: authInitialState,
+
   // recipes: recipesInitialState,
   // settings: settingsInitialState,
   // officialWebsites: officialWebsitesInitialState,

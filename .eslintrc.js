@@ -38,6 +38,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     'no-console': ['error', { allow: ['warn', 'error'] }],
+    'i18next/no-literal-string': 'off',
     'i18n-json/sorted-keys': 'off',
     'i18n-json/valid-message-syntax': 'off',
     'i18n-json/identical-keys': [

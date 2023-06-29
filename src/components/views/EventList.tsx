@@ -12,23 +12,28 @@ import FixedHeader from '../molecules/FixedHeader'
 import Page from '~src/components/organisms/Page'
 import { useAppSelector } from '~src/hooks/redux'
 import { getAllEvents } from '~src/features/event/event.slice'
+import Avatar from '../../features/user/components/Avatar'
+import { getCurrentUser } from '~src/features/auth/auth.slice'
 
 const EventList = () => {
   const events = useAppSelector(getAllEvents)
+
+  const user = useAppSelector(getCurrentUser)
 
   return (
     <Page>
       <FixedHeader>
         <Header>
-          <div className="self-stretch flex-1 flex items-center max-w-screen-lg m-auto px-2">
+          <div className="self-stretch flex-1 flex items-center max-w-screen-2xl m-auto px-10 gap-3">
             <h1 className="font-bold text-xl text-primary-500">Events</h1>
             <div className="flex-1" />
 
             <Button.Primary>New Event</Button.Primary>
+            <Avatar email={user?.email} />
           </div>
         </Header>
       </FixedHeader>
-      <MaxWidthContainer>
+      <div className="max-w-screen-2xl m-auto px-10">
         <div className="mt-10">
           <EventListSection>
             {events.map(event => (
@@ -36,7 +41,7 @@ const EventList = () => {
             ))}
           </EventListSection>
         </div>
-      </MaxWidthContainer>
+      </div>
     </Page>
   )
 }

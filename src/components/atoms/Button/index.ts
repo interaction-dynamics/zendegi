@@ -3,6 +3,7 @@ import ErrorButton from './ErrorButton'
 import BlackButton from './BlackButton'
 import WhiteButton from './WhiteButton'
 import CircleButton from './CircleButton'
+import IconButton from './IconButton'
 
 const Button = {
   Primary: PrimaryButton,
@@ -10,6 +11,7 @@ const Button = {
   Black: BlackButton,
   White: WhiteButton,
   Circle: CircleButton,
+  Icon: IconButton,
 }
 
 export default Button
