@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/router'
 
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 
-import Button from '~/src/components/atoms/Button'
-import HistoryContext from '~/src/contexts/History'
+import Button from '@/components/atoms/Button'
+import HistoryContext from '@/contexts/History'
 
-import isRightToLeft from '~/src/utils/platforms/isRightToLeft'
+import isRightToLeft from '@/utils/platforms/isRightToLeft'
 
 type Props = {
   url: string
@@ -18,7 +18,7 @@ type Props = {
 
 const BackButton = ({ url, className, basic, disabled, title }: Props) => {
   const { previousLocation } = useContext(HistoryContext)
-  const navigate = useNavigate()
+  const router = useRouter()
 
   const icon = isRightToLeft() ? ArrowRightIcon : ArrowLeftIcon
 
@@ -32,7 +32,7 @@ const BackButton = ({ url, className, basic, disabled, title }: Props) => {
     return (
       <span data-tip={title}>
         <Button.Icon
-          onClick={() => navigate(-1)}
+          onClick={() => router.back()}
           icon={icon}
           basic={basic}
           className={className}

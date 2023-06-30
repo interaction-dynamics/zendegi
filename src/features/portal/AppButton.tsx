@@ -1,6 +1,10 @@
 'use client'
 import { useState } from 'react'
-import LordIcon from '@/components/atoms/LordIcon'
+import dynamic from 'next/dynamic'
+
+const LordIcon = dynamic(() => import('@/components/atoms/LordIcon'), {
+  ssr: false,
+})
 
 export interface AppButtonProps {
   title: string

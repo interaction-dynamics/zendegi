@@ -19,12 +19,32 @@ export type LordIconColors = {
   secondary?: string
 }
 
-export type LordIconProps = {
+export interface LordIconProps {
   src?: string
   trigger?: LordIconTrigger
   colors?: LordIconColors
   delay?: number
   size?: number
+}
+
+export interface LordIconComponentProps
+  extends React.HTMLAttributes<HTMLElement> {
+  src?: string
+  trigger?: LordIconTrigger
+  colors?: string
+  delay?: number
+  size?: number
+}
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      ['lord-icon']: React.DetailedHTMLProps<
+        LordIconComponentProps,
+        HTMLElement
+      >
+    }
+  }
 }
 
 const LordIcon = forwardRef(

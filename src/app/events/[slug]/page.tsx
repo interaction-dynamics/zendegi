@@ -2,9 +2,9 @@ import FixedHeader from '@/components/molecules/FixedHeader'
 import Header from '@/components/molecules/Header'
 import Button from '@/components/atoms/Button'
 import UserMenu from '@/features/user/components/UserMenu'
-import EventListSection from '@/features/event/components/EventListSection'
-import EventPreview from '@/features/event/components/EventPreview'
-import EventType from '@/features/event/types/EventType'
+import EventListSection from '@/features/events/components/EventListSection'
+import EventPreview from '@/features/events/components/EventPreview'
+import EventType from '@/features/events/types/EventType'
 
 const events = [
   {

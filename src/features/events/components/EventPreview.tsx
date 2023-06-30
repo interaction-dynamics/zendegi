@@ -1,9 +1,12 @@
 import classNames from 'classnames'
 import Link from 'next/link'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 
-import LordIcon from '@/components/atoms/LordIcon'
-import Event from '@/features/event/types/Event'
+const LordIcon = dynamic(() => import('@/components/atoms/LordIcon'), {
+  ssr: false,
+})
+import Event from '@/features/events/types/Event'
 import EventType from '../types/EventType'
 
 const EventIcon = {
@@ -20,11 +23,6 @@ export interface EventPreviewProps {
 
 const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
   const date = new Date(event.date)
-
-  console.log(
-    'date',
-    new Intl.DateTimeFormat('en-US', { day: 'numeric' }).format(date)
-  )
 
   return (
     <Link

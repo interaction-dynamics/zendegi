@@ -7,16 +7,18 @@ const useEventListener = (
     | HTMLElement
     | BroadcastChannel
     | null
-    | (Window & typeof globalThis) = window,
+    | (Window & typeof globalThis) = null
 ) => {
   useEffect(() => {
-    if (element) {
+    const actualElement = element === null ? window : element
+    if (actualElement) {
       // clean up code
-      element.removeEventListener(eventName, handler)
-      element.addEventListener(eventName, handler)
-      return () => element.removeEventListener(eventName, handler)
+      actualElement.removeEventListener(eventName, handler)
+      actualElement.addEventListener(eventName, handler)
+      return () => actualElement.removeEventListener(eventName, handler)
     }
-  }, [element, eventName, handler])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eventName, handler])
 }
 
 export default useEventListener
