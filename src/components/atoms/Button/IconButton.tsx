@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 type Props = {
   url?: string
@@ -36,7 +36,7 @@ const IconButton = ({
     'p-2 text-base font-medium text-gray-900 hover:text-primary-400 flex h-15 w-15 items-center bg-white pointer-events-auto',
     disabled ? 'cursor-no-drop opacity-50' : 'cursor-pointer',
     blur ? 'bg-opacity-50 backdrop-filter backdrop-blur' : '',
-    className,
+    className
   )
 
   return (
@@ -44,11 +44,11 @@ const IconButton = ({
       {url ? (
         <Link className={classes} to={url} onClick={onClick} aria-label={title}>
           {label && rightIcon && (
-            <span className="mr-0.5 hidden sm:inline text-normal">{label}</span>
+            <span className='mr-0.5 hidden sm:inline text-normal'>{label}</span>
           )}
-          {Icon && <Icon className="h-7 w-7" aria-hidden="true" />}
+          {Icon && <Icon className='h-7 w-7' aria-hidden='true' />}
           {label && !rightIcon && (
-            <span className="ml-0.5 hidden sm:inline text-normal">{label}</span>
+            <span className='ml-0.5 hidden sm:inline text-normal'>{label}</span>
           )}
           {children}
         </Link>
@@ -60,11 +60,11 @@ const IconButton = ({
           aria-label={title}
         >
           {label && rightIcon && (
-            <span className="mr-0.5 hidden sm:inline text-normal">{label}</span>
+            <span className='mr-0.5 hidden sm:inline text-normal'>{label}</span>
           )}
-          {Icon && <Icon className="h-7 w-7" aria-hidden="true" />}
+          {Icon && <Icon className='h-7 w-7' aria-hidden='true' />}
           {label && !rightIcon && (
-            <span className="ml-0.5 hidden sm:inline text-normal">{label}</span>
+            <span className='ml-0.5 hidden sm:inline text-normal'>{label}</span>
           )}
           {children}
         </button>

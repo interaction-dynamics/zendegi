@@ -1,3 +1,4 @@
+'use client'
 import { forwardRef, LegacyRef } from 'react'
 import lottie from 'lottie-web'
 import { defineElement } from 'lord-icon-element'
@@ -29,7 +30,7 @@ export type LordIconProps = {
 const LordIcon = forwardRef(
   (
     { colors, src, size, trigger = 'morph', delay }: LordIconProps,
-    ref: LegacyRef<HTMLElement> | undefined,
+    ref: LegacyRef<HTMLElement> | undefined
   ) => {
     return (
       <lord-icon
@@ -45,7 +46,7 @@ const LordIcon = forwardRef(
         ref={ref}
       />
     )
-  },
+  }
 )
 
 LordIcon.displayName = 'LordIcon'

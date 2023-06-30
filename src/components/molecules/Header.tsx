@@ -1,9 +1,21 @@
+import classNames from 'classnames'
+
 export interface HeaderProps {
   children?: React.ReactNode
+  className?: string
 }
 
-const Header: React.FC<HeaderProps> = ({ children }) => {
-  return <div className="h-16 relative flex items-center">{children}</div>
+const Header: React.FC<HeaderProps> = ({ children, className }) => {
+  return (
+    <div
+      className={classNames(
+        'h-16 relative flex items-center px-10 gap-3',
+        className
+      )}
+    >
+      {children}
+    </div>
+  )
 }
 
 export default Header

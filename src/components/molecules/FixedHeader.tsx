@@ -1,7 +1,8 @@
+'use client'
 import { useState } from 'react'
 import classNames from 'classnames'
 
-import useEventListener from '~src/hooks/useEventListener'
+import useEventListener from '@/hooks/useEventListener'
 
 export interface FixedHeaderProps {
   children?: React.ReactNode
@@ -25,12 +26,12 @@ const FixedHeader: React.FC<FixedHeaderProps> = ({
           'transition fixed top-0 left-0 right-0 z-50 bg-white',
           {
             shadow: elevated,
-          },
+          }
         )}
       >
         {children}
       </div>
-      <div className="h-20" />
+      <div className='h-20' />
     </>
   )
 }
