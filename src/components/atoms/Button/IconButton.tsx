@@ -42,7 +42,12 @@ const IconButton = ({
   return (
     <>
       {url ? (
-        <Link className={classes} to={url} onClick={onClick} aria-label={title}>
+        <Link
+          className={classes}
+          href={url}
+          onClick={onClick}
+          aria-label={title}
+        >
           {label && rightIcon && (
             <span className='mr-0.5 hidden sm:inline text-normal'>{label}</span>
           )}
