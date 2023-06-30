@@ -26,12 +26,12 @@ const FixedHeader: React.FC<FixedHeaderProps> = ({
           'transition fixed top-0 left-0 right-0 z-50 bg-white',
           {
             shadow: elevated,
-          }
+          },
         )}
       >
         {children}
       </div>
-      <div className='h-20' />
+      <div className="h-20" />
     </>
   )
 }

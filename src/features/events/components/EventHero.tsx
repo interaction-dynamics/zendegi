@@ -66,7 +66,7 @@ const EventHero: React.FC<EventHeroProps> = ({ event }) => {
   const date = new Date(event.date)
 
   return (
-    <div className='pt-24 mb-24'>
+    <div className="pt-24 mb-24">
       {imageUrl && (
         <StyledBox mb={5} sx={{ display: 'flex', justifyContent: 'center' }}>
           <StyledHeroImage>
@@ -79,28 +79,28 @@ const EventHero: React.FC<EventHeroProps> = ({ event }) => {
       <StyledBox>
         {spouseB ? (
           <>
-            <StyledTitle variant='h1' color='primary'>
+            <StyledTitle variant="h1" color="primary">
               {spouseA}
             </StyledTitle>
             <StyledTitle
-              variant='h1'
-              color='primary'
+              variant="h1"
+              color="primary"
               display={{ xs: 'block', md: 'inline' }}
             >
               {` `}&{` `}
             </StyledTitle>
-            <StyledTitle variant='h1' color='primary'>
+            <StyledTitle variant="h1" color="primary">
               {spouseB}
             </StyledTitle>
           </>
         ) : (
-          <StyledTitle variant='h1' color='primary'>
+          <StyledTitle variant="h1" color="primary">
             {title}
           </StyledTitle>
         )}
       </StyledBox>
       <StyledBox pt={2}>
-        <StyledDate variant='h2' color='primary'>
+        <StyledDate variant="h2" color="primary">
           {new Intl.DateTimeFormat('en-US', {
             day: 'numeric',
             month: 'long',
@@ -109,7 +109,7 @@ const EventHero: React.FC<EventHeroProps> = ({ event }) => {
         </StyledDate>
       </StyledBox>
       <StyledBox pt={2}>
-        <StyledDate variant='h2' color='primary'>
+        <StyledDate variant="h2" color="primary">
           {location}
         </StyledDate>
       </StyledBox>

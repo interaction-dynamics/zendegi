@@ -7,7 +7,7 @@ const useEventListener = (
     | HTMLElement
     | BroadcastChannel
     | null
-    | (Window & typeof globalThis) = null
+    | (Window & typeof globalThis) = null,
 ) => {
   useEffect(() => {
     const actualElement = element === null ? window : element

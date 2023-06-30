@@ -50,7 +50,7 @@ declare global {
 const LordIcon = forwardRef(
   (
     { colors, src, size, trigger = 'morph', delay }: LordIconProps,
-    ref: LegacyRef<HTMLElement> | undefined
+    ref: LegacyRef<HTMLElement> | undefined,
   ) => {
     return (
       <lord-icon
@@ -66,7 +66,7 @@ const LordIcon = forwardRef(
         ref={ref}
       />
     )
-  }
+  },
 )
 
 LordIcon.displayName = 'LordIcon'

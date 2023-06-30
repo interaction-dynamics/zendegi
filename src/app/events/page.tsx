@@ -23,18 +23,18 @@ const Events = () => {
   return (
     <>
       <FixedHeader>
-        <div className='max-w-screen-2xl m-auto '>
+        <div className="max-w-screen-2xl m-auto ">
           <Header>
-            <h1 className='font-bold text-xl text-primary-500'>Events</h1>
-            <div className='flex-1' />
+            <h1 className="font-bold text-xl text-primary-500">Events</h1>
+            <div className="flex-1" />
 
             <Button.Primary>New Event</Button.Primary>
             <UserMenu />
           </Header>
         </div>
       </FixedHeader>
-      <div className='max-w-screen-2xl m-auto px-10'>
-        <div className='mt-10'>
+      <div className="max-w-screen-2xl m-auto px-10">
+        <div className="mt-10">
           <EventListSection>
             {events.map(event => (
               <EventPreview event={event} key={event.id} />
