@@ -8,6 +8,7 @@ const LordIcon = dynamic(() => import('@/components/atoms/LordIcon'), {
 })
 import Event from '@/features/events/types/Event'
 import EventType from '../types/EventType'
+import useFormatDate from '@/hooks/useFormatDate'
 
 const EventIcon = {
   [EventType.Wedding]: '/icons/wired-outline-653-marriage.json',
@@ -22,7 +23,7 @@ export interface EventPreviewProps {
 }
 
 const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
-  const date = new Date(event.date)
+  const formatDate = useFormatDate()
 
   return (
     <Link
@@ -42,6 +43,7 @@ const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
             <Image
               src={event.imageUrl}
               alt={event.title}
+              fill
               width={500}
               height={500}
               className="object-center object-cover indent-[-9999px]"
@@ -70,10 +72,10 @@ const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
       <div className="px-2 py-2.5 flex">
         <div className="flex-[0_0_3rem] flex flex-col align-center justify-start mr-2">
           <div className="text-xl font-bold text-center text-gray-900">
-            {new Intl.DateTimeFormat('en-US', { day: 'numeric' }).format(date)}
+            {formatDate(event.date, { day: 'numeric' })}
           </div>
           <div className="text-smdm font-bold text-center mt-[-4px] text-gray-900">
-            {new Intl.DateTimeFormat('en-US', { month: 'short' }).format(date)}
+            {formatDate(event.date, { month: 'short' })}
           </div>
         </div>
         <div className="flex-1 pt-0.5">

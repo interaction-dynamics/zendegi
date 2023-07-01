@@ -1,11 +1,10 @@
+'use client'
+
 import { Box, Typography, styled } from '@mui/material'
 import Image from 'next/image'
 
 import Event from '@/features/events/types/Event'
-
-const StyledBox = styled(Box)`
-  text-align: center;
-`
+import useFormatDate from '@/hooks/useFormatDate'
 
 const StyledHeroImage = styled('div')`
   position: relative;
@@ -46,6 +45,8 @@ const StyledTitle = styled(Typography)`
   line-break: strict;
 `
 
+const dateClassName = ''
+
 const StyledDate = styled(Typography)`
   font-family: 'Great Vibes';
   font-weight: 400;
@@ -59,60 +60,42 @@ export interface EventHeroProps {
 }
 
 const EventHero: React.FC<EventHeroProps> = ({ event }) => {
-  const { title, location, imageUrl } = event
+  const { title, location } = event
 
-  const [spouseA, spouseB] = title.split('&').map(t => t.trim())
+  const [spouseA, spouseB] = title
+    .replace(/wedding/gi, '')
+    .split('&')
+    .map(t => t.trim())
 
-  const date = new Date(event.date)
+  const formatDate = useFormatDate()
 
   return (
     <div className="pt-24 mb-24">
-      {imageUrl && (
-        <StyledBox mb={5} sx={{ display: 'flex', justifyContent: 'center' }}>
-          <StyledHeroImage>
-            <Image src={imageUrl} alt={title} />
-            <StyledShadowBox />
-          </StyledHeroImage>
-        </StyledBox>
-      )}
-
-      <StyledBox>
+      <div className="text-center leading-[4rem] text-primary-500 text-5xl font-curve">
         {spouseB ? (
           <>
-            <StyledTitle variant="h1" color="primary">
-              {spouseA}
-            </StyledTitle>
-            <StyledTitle
-              variant="h1"
-              color="primary"
-              display={{ xs: 'block', md: 'inline' }}
-            >
+            <h1 className="inline ">Wedding</h1>
+            <br />
+            <h1 className="inline">{spouseA}</h1>
+            <h1 className="inline">
               {` `}&{` `}
-            </StyledTitle>
-            <StyledTitle variant="h1" color="primary">
-              {spouseB}
-            </StyledTitle>
+            </h1>
+            <h1 className="inline">{spouseB}</h1>
           </>
         ) : (
-          <StyledTitle variant="h1" color="primary">
-            {title}
-          </StyledTitle>
+          <h1 className="inline">{title}</h1>
         )}
-      </StyledBox>
-      <StyledBox pt={2}>
-        <StyledDate variant="h2" color="primary">
-          {new Intl.DateTimeFormat('en-US', {
+      </div>
+      <div className="pt-1 text-center text-primary-500 text-4xl font-curve leading-[3rem]">
+        <h2>
+          {formatDate(event.date, {
             day: 'numeric',
             month: 'long',
             year: 'numeric',
-          }).format(date)}
-        </StyledDate>
-      </StyledBox>
-      <StyledBox pt={2}>
-        <StyledDate variant="h2" color="primary">
-          {location}
-        </StyledDate>
-      </StyledBox>
+          })}
+        </h2>
+        <h2>{location}</h2>
+      </div>
     </div>
   )
 }

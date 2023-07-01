@@ -22,6 +22,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', ...defaultTheme.fontFamily.sans],
+        curve: ['var(--font-great-vibes)', ...defaultTheme.fontFamily.sans],
       },
       fontSize: {
         '2xs': ['0.7rem', { lineHeight: '0.9rem' }],

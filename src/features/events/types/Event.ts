@@ -1,3 +1,4 @@
+import Gallery from '@/features/gallery/types/Gallery'
 import EventType from './EventType'
 
 export default interface Event {
@@ -6,7 +7,7 @@ export default interface Event {
   title: string
   date: string
   location: string
-  url: string
+  slug: string
   imageUrl: string
-  galleryId: string
+  gallerySlugs: string[]
 }

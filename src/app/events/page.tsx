@@ -2,9 +2,9 @@ import FixedHeader from '@/components/molecules/FixedHeader'
 import Header from '@/components/molecules/Header'
 import Button from '@/components/atoms/Button'
 import UserMenu from '@/features/user/components/UserMenu'
-import EventListSection from '@/features/events/components/EventListSection'
 import EventPreview from '@/features/events/components/EventPreview'
 import EventType from '@/features/events/types/EventType'
+import MaxWidthContainer from '@/components/atoms/MaxWidthContainer'
 
 const events = [
   {
@@ -23,7 +23,7 @@ const Events = () => {
   return (
     <>
       <FixedHeader>
-        <div className="max-w-screen-2xl m-auto ">
+        <MaxWidthContainer className="max-w-screen-2xl">
           <Header>
             <h1 className="font-bold text-xl text-primary-500">Events</h1>
             <div className="flex-1" />
@@ -31,17 +31,17 @@ const Events = () => {
             <Button.Primary>New Event</Button.Primary>
             <UserMenu />
           </Header>
-        </div>
+        </MaxWidthContainer>
       </FixedHeader>
-      <div className="max-w-screen-2xl m-auto px-10">
+      <MaxWidthContainer className="max-w-screen-2xl">
         <div className="mt-10">
-          <EventListSection>
+          <div className="grid gap-x-4 md:gap-x-6 gap-y-8 sm:gap-y-10 grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4 5xl:grid-cols-4">
             {events.map(event => (
               <EventPreview event={event} key={event.id} />
             ))}
-          </EventListSection>
+          </div>
         </div>
-      </div>
+      </MaxWidthContainer>
     </>
   )
 }

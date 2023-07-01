@@ -5,7 +5,7 @@ const BlackButton = ({
   className = '',
   children = null,
   title = '',
-  to,
+  href,
   onClick,
   disabled = false,
   ...props
@@ -16,10 +16,10 @@ const BlackButton = ({
     disabled ? 'opacity-70' : '',
   )
 
-  if (to) {
+  if (href) {
     return (
       <GenericButton
-        to={to}
+        href={href}
         className={allClassName}
         disabled={disabled}
         {...props}

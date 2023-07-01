@@ -7,7 +7,7 @@ export type Props = {
   className?: string
   children?: React.ReactNode
   title?: string
-  to?: string
+  href?: string
   onClick?: () => void
   disabled?: boolean
   id?: string
@@ -21,7 +21,7 @@ const GenericButton = forwardRef(
       className = '',
       children = null,
       title = '',
-      to,
+      href,
       onClick,
       disabled = false,
       id,
@@ -35,9 +35,9 @@ const GenericButton = forwardRef(
       className,
     )
 
-    if (to) {
+    if (href) {
       return (
-        <Link href={to} className={allClassName} id={id} ref={ref}>
+        <Link href={href} className={allClassName} id={id} ref={ref}>
           <span className="sr-only">{title}</span>
           {children}
         </Link>

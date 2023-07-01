@@ -1,10 +1,16 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Inter, Great_Vibes } from 'next/font/google'
 import classNames from 'classnames'
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
+})
+
+const greatVibes = Great_Vibes({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-great-vibes',
 })
 
 export const metadata = {
@@ -19,7 +25,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={classNames(inter.className, 'min-h-max')}>
+      <body
+        className={classNames(
+          inter.variable,
+          greatVibes.variable,
+          'min-h-max font-sans bg-white',
+        )}
+      >
         {children}
       </body>
     </html>
