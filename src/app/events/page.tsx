@@ -10,10 +10,10 @@ const events = [
   {
     id: 'foo',
     title: 'Wedding Paria & Thibault',
-    date: '2023-06-12',
+    date: new Date('2023-06-12'),
     location: 'Montréal',
     type: EventType.Wedding,
-    url: 'bar',
+    slug: 'bar',
     imageUrl: '',
     galleryId: 'baz',
   },

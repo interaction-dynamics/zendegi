@@ -5,7 +5,7 @@ type Props = {
   className?: string
   children?: React.ReactNode
   title?: string
-  to?: string
+  href?: string
   onClick?: () => void
 }
 
@@ -13,7 +13,7 @@ const PrimaryButton = ({
   className = '',
   children = null,
   title = '',
-  to,
+  href,
   onClick,
 }: Props) => {
   const allClassName = classNames(
@@ -21,9 +21,9 @@ const PrimaryButton = ({
     className,
   )
 
-  if (to) {
+  if (href) {
     return (
-      <GenericButton to={to} className={allClassName}>
+      <GenericButton href={href} className={allClassName}>
         {children}
       </GenericButton>
     )

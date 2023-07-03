@@ -8,7 +8,7 @@ const PrimaryButton = forwardRef(
       className = '',
       children = null,
       title = '',
-      to,
+      href,
       disabled,
       ...props
     }: Props,
@@ -20,10 +20,10 @@ const PrimaryButton = forwardRef(
       disabled ? 'opacity-70' : '',
     )
 
-    if (to) {
+    if (href) {
       return (
         <GenericButton
-          to={to}
+          href={href}
           className={allClassName}
           disabled={disabled}
           {...props}

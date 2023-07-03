@@ -5,7 +5,7 @@ type Props = {
   className?: string
   children?: React.ReactNode
   title?: string
-  to?: string
+  href?: string
   onClick?: () => void
   disabled?: boolean
   id?: string
@@ -16,7 +16,7 @@ const WhiteButton = ({
   className = '',
   children = null,
   title = '',
-  to,
+  href,
   onClick,
   disabled = false,
   ...props
@@ -27,10 +27,10 @@ const WhiteButton = ({
     disabled ? 'opacity-70' : '',
   )
 
-  if (to) {
+  if (href) {
     return (
       <GenericButton
-        to={to}
+        href={href}
         className={allClassName}
         disabled={disabled}
         {...props}

@@ -1,4 +1,4 @@
-import { NextResponse, NextApiRequest } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server'
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
@@ -10,7 +10,7 @@ const last = (array: string[]) => array[array.length - 1]
  * https://upmostly.com/next-js/how-to-upload-a-file-to-s3-with-next-js
  * https://stackoverflow.com/questions/67127375/s3-getsignedurl-v2-equivalent-in-aws-javascript-sdk-v3
  */
-export async function POST(request: NextApiRequest) {
+export async function POST(request: NextRequest) {
   try {
     const { filename, fileType, eventSlug } = await request.json()
 
@@ -32,8 +32,8 @@ export async function POST(request: NextApiRequest) {
     const s3 = new S3Client({
       region: process.env.AWS_REGION,
       credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? '',
       },
     })
 

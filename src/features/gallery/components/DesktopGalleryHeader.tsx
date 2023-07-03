@@ -1,8 +1,7 @@
-/* eslint-disable i18next/no-literal-string */
 import { Container, Box, useTheme, Button } from '@mui/material'
 import { HeartIcon } from '@heroicons/react/24/solid'
 
-import Header from '~src/components/molecules/Header'
+import Header from '@/components/molecules/Header'
 
 export interface DesktopGalleryHeaderProps {
   onOpenFavorites: () => void

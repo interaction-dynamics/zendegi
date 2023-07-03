@@ -1,14 +1,12 @@
 'use client'
 import { useRef, useState } from 'react'
 import { Box, styled, Paper, Typography } from '@mui/material'
-import { Masonry, type MansoryProps } from '@mui/lab'
+import { Masonry, type MasonryProps } from '@mui/lab'
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/solid'
 import { ArrowSmallUpIcon } from '@heroicons/react/24/outline'
 
 import Picture from '@/features/gallery/types/Picture'
 import useEventListener from '@/hooks/useEventListener'
-import GalleryDownloadButton from './GalleryDownloadButton'
-import Gallery from '../types/Gallery'
 import DesktopImagePopup from './DesktopImagePopup'
 
 const StyledImageContainer = styled(Paper)`
@@ -65,7 +63,7 @@ const StyledImage = styled('img')`
 export interface GallerySectionProps {
   images: Picture[]
   children?: React.ReactNode
-  columns: MansoryProps['columns']
+  columns: MasonryProps['columns']
 }
 
 const GallerySection: React.FC<GallerySectionProps> = ({

@@ -5,5 +5,4 @@ export default interface Gallery {
   slug: string
   title: string
   description?: string
-  images: 
 }
