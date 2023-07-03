@@ -3,11 +3,10 @@ import EventType from './EventType'
 
 export default interface Event {
   id: string
-  type: EventType
+  // type: EventType
   title: string
-  date: string
+  date: Date
   location: string
   slug: string
-  imageUrl: string
-  gallerySlugs: string[]
+  imageUrl?: string
 }

@@ -4,11 +4,31 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'ik.imagekit.io',
+        hostname: `${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`,
         port: '',
-        pathname: '/zendegi/**',
+        pathname: '/pictures/**',
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: '/events/(.*)',
+        headers: [
+          { key: 'Access-Control-Allow-Credentials', value: 'true' },
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value:
+              'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+          },
+        ],
+      },
+    ]
   },
 }
 

@@ -21,7 +21,6 @@ interface DesktopImagePopupProps {
   image: Picture | undefined
   open: boolean
   onClose: () => void
-  gallery: Gallery
 }
 
 const IconButton: React.FC<{
@@ -48,15 +47,12 @@ const DesktopImagePopup: React.FC<DesktopImagePopupProps> = ({
   image,
   open,
   onClose,
-  gallery,
 }) => {
   const isFavorite = false
 
   const Icon = isFavorite ? HeartIcon : HeartOutlineIcon
 
   const ShareIcon = DefaultShareIcon
-
-  const canShare = typeof navigator.share === 'function'
 
   const share = async () => {
     try {
@@ -95,27 +91,6 @@ const DesktopImagePopup: React.FC<DesktopImagePopupProps> = ({
             </IconButton>
           </Box>
           <StyledActionButtonsInner onClick={event => event.stopPropagation()}>
-            {/* <IconButton>
-              <Icon
-                className={`h-9 w-9 ${
-                  isFavorite
-                    ? 'fill-current stroke-transparent'
-                    : 'stroke-current'
-                } `}
-              />
-            </IconButton> */}
-            {/* <IconButton
-              onClick={() =>
-                dispatch(rotateImage({ image, angle: angle + 90 }))
-              }
-            >
-              <ArrowPathRoundedSquareIcon />
-            </IconButton> */}
-            {canShare && (
-              <IconButton onClick={share}>
-                <ShareIcon className="stroke-current h-9 w-9" />
-              </IconButton>
-            )}
             <a
               href={`data:image/jpeg,${image?.url}`}
               target="_blank"
@@ -136,17 +111,14 @@ const DesktopImagePopup: React.FC<DesktopImagePopupProps> = ({
               style={{ height: 'auto', width: 'auto' }}
               className="rounded-lg max-w-full max-h-full"
               src={image?.url ?? ''}
-              alt={image?.alt ?? image?.filename ?? ''}
+              alt={image?.filename ?? ''}
               onClick={event => {
                 event.stopPropagation()
               }}
             />
           </div>
-          {/* <Grow in> */}
-          {/*  */}
-          {/* </Grow> */}
         </div>
-        <Box sx={{ height: '5rem' }} />
+        <div className="h-10" />
       </div>
     </Modal>
   )

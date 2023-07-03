@@ -1,6 +1,5 @@
 export default interface Picture {
+  id: string
   url: string
-  urlMini?: string
-  alt?: string
   filename: string
 }

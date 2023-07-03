@@ -28,7 +28,7 @@ const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
   return (
     <Link
       className="rounded-xl shadow hover:shadow-md overflow-hidden relative group cursor-pointer"
-      href={`/events/${event.url}`}
+      href={`/events/${event.slug}`}
     >
       <div
         className={classNames(
@@ -51,7 +51,7 @@ const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
           ) : (
             <div className="flex-1 flex items-center justify-center">
               <LordIcon
-                src={EventIcon[event.type]}
+                src={EventIcon[EventType.Wedding]}
                 colors={{ primary: 'white', secondary: 'white' }}
                 size={120}
               />

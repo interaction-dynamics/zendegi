@@ -4,13 +4,12 @@
 
 ## Getting Started
 
-First, run the development server:
+1. install [vercel CLI](https://vercel.com/docs/cli)
+2. be sure you have a vercel account
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+vercel env pull .env.development.local
+
 pnpm dev
 ```
 
@@ -39,8 +38,18 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 Before contributing, please read the [./CONTRIBUTING.md](Guidelines).
 
+## Stack
+
+- next.js
+- tailwind
+- vercel
+- aws
+- mailchimp
+- lordicons
+
 ## Useful links
 
 - https://web.dev/add-manifest/
 - [Accessibility](https://reactjs.org/docs/accessibility.html)
 - [Single page applications for github pages](https://github.com/rafgraph/spa-github-pages)
+- [upload file in aws with next.js](https://medium.com/geekculture/how-to-upload-file-to-aws-s3-using-pre-signed-url-in-nextjs-1f70a955389e)

@@ -7,7 +7,7 @@ export const eventMock: Event = {
   date: '2023-06-12',
   location: 'Montréal',
   type: EventType.Wedding,
-  url: 'bar',
+  slug: 'bar',
   imageUrl: '',
-  galleryId: 'baz',
+  gallerySlugs: ['baz'],
 }

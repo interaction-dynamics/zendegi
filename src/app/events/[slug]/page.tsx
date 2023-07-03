@@ -1,4 +1,4 @@
-import { sql } from '@vercel/postgres'
+import { db } from '@/services/kysely'
 
 import FixedHeader from '@/components/molecules/FixedHeader'
 import Header from '@/components/molecules/Header'
@@ -8,17 +8,9 @@ import EventType from '@/features/events/types/EventType'
 import MaxWidthContainer from '@/components/atoms/MaxWidthContainer'
 import EventHero from '@/features/events/components/EventHero'
 import GallerySection from '@/features/gallery/components/GallerySection'
-
-const event = {
-  id: 'foo',
-  title: 'Wedding Paria & Thibault',
-  date: '2023-06-12',
-  location: 'Montréal',
-  type: EventType.Wedding,
-  slug: 'bar',
-  imageUrl: '',
-  gallerySlugs: ['baz'],
-}
+import * as aws from '@/services/aws'
+import { useState } from 'react'
+import DragAndDropLayer from '@/features/gallery/components/DragAndDropLayer'
 
 const gallery = {
   id: 'baz',
@@ -39,23 +31,44 @@ interface EventProps {
   }
 }
 
-const Event: React.FC<EventProps> = ({ params }) => {
-  return (
-    <>
-      {/* <FixedHeader>
-        <MaxWidthContainer className="max-w-screen-2xl">
-          <Header>
-            <div className="flex-1" />
-            <UserMenu />
-          </Header>
-        </MaxWidthContainer>
-      </FixedHeader> */}
+const Event: React.FC<EventProps> = async ({ params }) => {
+  const event = await db
+    .selectFrom('events')
+    .select(['id', 'title', 'slug', 'date', 'location'])
+    .where('events.slug', '=', params.slug)
+    .executeTakeFirst()
+
+  if (!event) {
+    return (
       <MaxWidthContainer className="max-w-screen-2xl">
+        <div className="mt-10 text-center">
+          <h1 className="text-xl">Impossible to find this event</h1>
+          <p className="text-gray-500 text-center">
+            Maybe a typo in the url? Ask your contact
+          </p>
+        </div>
+      </MaxWidthContainer>
+    )
+    return <div className="text-black">fdsfds</div>
+  }
+
+  let images = await db
+    .selectFrom('pictures')
+    .select(['id', 'filename', 'url'])
+    .where('pictures.eventId', '=', event.id)
+    .execute()
+
+  images = images.map(aws.rewriteUrl(event))
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <MaxWidthContainer className="max-w-screen-2xl flex-1">
         <div className="mt-10">
           <EventHero event={event} />
         </div>
-        <GallerySection gallery={gallery} columns={4} />
+        <GallerySection images={images} columns={4} />
       </MaxWidthContainer>
+      <DragAndDropLayer event={event} />
       <footer className="bg-white mt-20 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">
         <MaxWidthContainer className="max-w-screen-2xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
           <div className="flex items-center justify-center space-x-6 md:order-2">
@@ -71,7 +84,7 @@ const Event: React.FC<EventProps> = ({ params }) => {
           </div>
         </MaxWidthContainer>
       </footer>
-    </>
+    </div>
   )
 }
 

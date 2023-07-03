@@ -11,60 +11,6 @@ import GalleryDownloadButton from './GalleryDownloadButton'
 import Gallery from '../types/Gallery'
 import DesktopImagePopup from './DesktopImagePopup'
 
-const StyledStickyHeader = styled(Box)<{ isOnTop: string }>(
-  ({ isOnTop }) => `
-    display: flex;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: ${isOnTop === 'true' ? 30 : 0};
-    width: 100%;
-`,
-)
-
-const StyledBadge = styled(Box)<{ isOnTop: string }>(
-  ({ isOnTop }) => `
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    z-index: ${isOnTop ? 30 : 0};
-    cursor: pointer;
-    border-radius: 999rem;
-    background: ${isOnTop === 'true' ? 'white' : 'transparent'};
-    gap: 0.5rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    box-shadow: ${
-      isOnTop === 'true'
-        ? 'rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px'
-        : 'transparent'
-    };
-    white-space: nowrap;
-
-    border: ${
-      isOnTop === 'true' ? '1px solid rgb(229, 231, 235)' : 'transparent'
-    };
-
-    &:hover {
-      background: rgb(249, 250, 251);
-    }
-`,
-)
-
-const StyledButtons = styled(Box)<{ isOnTop: string }>(
-  ({ isOnTop }) => `
-  flex: 1 1 100%;
-  display: ${isOnTop === 'string' ? 'none' : 'flex'};
-`,
-)
-
-const StyledIcon = styled(ArrowSmallUpIcon)`
-  stroke: black;
-  width: 1rem;
-  height: 1rem;
-  stroke-width: 3;
-`
-
 const StyledImageContainer = styled(Paper)`
   overflow: hidden;
   border-radius: 0.5rem;
@@ -116,20 +62,14 @@ const StyledImage = styled('img')`
   }
 `
 
-const StyledArrowsPointingOutIcon = styled(ArrowsPointingOutIcon)`
-  width: 1.8rem;
-  height: 1.8rem;
-  stroke-width: 3;
-`
-
 export interface GallerySectionProps {
-  gallery: Gallery
+  images: Picture[]
   children?: React.ReactNode
   columns: MansoryProps['columns']
 }
 
 const GallerySection: React.FC<GallerySectionProps> = ({
-  gallery,
+  images,
   children,
   columns,
 }) => {
@@ -154,59 +94,39 @@ const GallerySection: React.FC<GallerySectionProps> = ({
     })
   }
 
-  const { title, images } = gallery
-
   return (
     <div
       className="text-center flex flex-col items-center"
       ref={topOfSectionRef}
     >
-      <StyledStickyHeader isOnTop={String(isOnTop)} ref={titleRef}>
-        <StyledButtons isOnTop={String(isOnTop)}></StyledButtons>
-        <StyledBadge isOnTop={String(isOnTop)}>
-          <StyledIcon sx={{ visibility: 'hidden' }} />
-          <Typography
-            variant={isOnTop ? 'h3' : 'h2'}
-            textAlign="center"
-            onClick={scrollToTopOfSection}
-          >
-            {title}
-          </Typography>
-          <StyledIcon sx={{ visibility: isOnTop ? 'visible' : 'hidden' }} />
-        </StyledBadge>
-        <StyledButtons isOnTop={String(isOnTop)} justifyContent="flex-end">
-          {images.length > 0 && (
-            <GalleryDownloadButton
-              galleryGroup={{
-                title,
-                images,
-              }}
-            />
-          )}
-        </StyledButtons>
-      </StyledStickyHeader>
-
-      <Box pb={2} />
       {images.length > 0 ? (
         <Masonry columns={columns} spacing={2}>
           {images.map(image => (
             <StyledImageContainer key={image.url}>
-              <StyledImage src={image.url} alt={image.alt} loading="lazy" />
-              <StyledOverlay onClick={() => setSelectecImage(image)}>
-                <StyledArrowsPointingOutIcon />
-              </StyledOverlay>
+              <StyledImage
+                src={image.url}
+                alt={image.filename}
+                loading="lazy"
+              />
+              <div
+                className="absolute inset-0 transition-all flex items-center justify-center bg-black/[.4] text-white opacity-0 hover:opacity-100"
+                onClick={() => setSelectecImage(image)}
+              >
+                <ArrowsPointingOutIcon className="h-8 w-8 stroke-[3px] " />
+              </div>
             </StyledImageContainer>
           ))}
         </Masonry>
       ) : (
         children
       )}
-      <DesktopImagePopup
-        image={selectedImage}
-        gallery={gallery}
-        open={Boolean(selectedImage)}
-        onClose={() => setSelectecImage(undefined)}
-      />
+      {
+        <DesktopImagePopup
+          image={selectedImage}
+          open={Boolean(selectedImage)}
+          onClose={() => setSelectecImage(undefined)}
+        />
+      }
     </div>
   )
 }

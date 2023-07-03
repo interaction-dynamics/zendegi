@@ -10,6 +10,8 @@
     "format": "prettier --check ."
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.363.0",
+    "@aws-sdk/s3-request-presigner": "^3.363.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.15",
@@ -22,11 +24,14 @@
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "@vercel/postgres": "^0.4.0",
+    "@vercel/postgres-kysely": "^0.4.0",
     "autoprefixer": "10.4.14",
+    "aws-crt": "^1.15.19",
     "classnames": "^2.3.2",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
     "imagekitio-react": "^2.0.0",
+    "kysely": "^0.25.0",
     "lord-icon-element": "^4.1.1",
     "lottie-web": "^5.12.2",
     "next": "13.4.7",
@@ -34,7 +39,12 @@
     "prettier": "^2.8.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "s3": "link:aws-sdk/clients/s3",
     "tailwindcss": "3.3.2",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.2"
   }
 }
