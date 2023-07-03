@@ -66,7 +66,7 @@ const Event: React.FC<EventProps> = async ({ params }) => {
         <div className="mt-10">
           <EventHero event={event} />
         </div>
-        <GallerySection images={images} columns={4} />
+        <GallerySection images={images} columns={{ xs: 2, md: 2, lg: 4 }} />
       </MaxWidthContainer>
       <DragAndDropLayer event={event} />
       <footer className="bg-white mt-20 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">
