@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Transition } from '@headlessui/react'
-// import { Masonry, type MasonryProps } from '@mui/lab'
+import va from '@vercel/analytics'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/solid'
@@ -53,11 +53,15 @@ const GallerySection: React.FC<GallerySectionProps> = ({
               />
               <div
                 className="absolute inset-0 transition-all flex items-center justify-center bg-black/[.4] text-white opacity-0 hover:opacity-100 cursor-pointer"
-                onClick={() =>
+                onClick={() => {
+                  va.track('image.zoom', {
+                    event: event.slug,
+                    image: image.slug ?? '',
+                  })
                   isMobile
                     ? router.push(`/events/${event.slug}/${image.slug}`)
                     : setSelectecImage(image)
-                }
+                }}
               >
                 <ArrowsPointingOutIcon className="h-8 w-8 stroke-[3px] " />
               </div>
@@ -78,6 +82,7 @@ const GallerySection: React.FC<GallerySectionProps> = ({
         <div className="fixed inset-0 z-50">
           <OneImageVisualizer
             image={selectedImage}
+            event={event}
             onClose={() => setSelectecImage(undefined)}
             onBack={() => setSelectecImage(undefined)}
           />

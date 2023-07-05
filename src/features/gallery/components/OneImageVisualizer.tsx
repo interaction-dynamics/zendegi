@@ -1,5 +1,7 @@
 'use client'
 import Image from 'next/image'
+import { useParams } from 'next/navigation'
+import va from '@vercel/analytics'
 
 import { ArrowLeftIcon, CloudArrowDownIcon } from '@heroicons/react/24/outline'
 
@@ -28,7 +30,14 @@ const OneImageVisualizer: React.FC<OneImageVisualizerProps> = ({
   onClose,
   onBack,
 }) => {
+  const { eventSlug } = useParams()
+
   const download = async () => {
+    va.track('image.download', {
+      event: eventSlug,
+      image: image?.slug ?? '',
+    })
+
     const imageData = await fetch(image?.url ?? '')
     const imageBlog = await imageData.blob()
     const imageURL = URL.createObjectURL(imageBlog)

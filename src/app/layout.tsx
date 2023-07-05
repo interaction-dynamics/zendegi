@@ -1,6 +1,8 @@
-import './globals.css'
 import { Inter, Great_Vibes } from 'next/font/google'
 import classNames from 'classnames'
+import { Analytics } from '@vercel/analytics/react'
+
+import './globals.css'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -33,6 +35,7 @@ export default function RootLayout({
         )}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   )
