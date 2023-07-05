@@ -11,7 +11,7 @@ import * as aws from '@/services/aws'
 import DragAndDropLayer from '@/features/gallery/components/DragAndDropLayer'
 import EventNotFound from '@/features/events/components/EventNotFound'
 
-export const getIsSsrMobile = () => {
+const getIsSsrMobile = () => {
   const headersList = headers()
 
   const md = new MobileDetect(headersList.get('user-agent') ?? '')
@@ -55,12 +55,7 @@ const Event: React.FC<EventProps> = async ({ params }) => {
           <div className="mt-10">
             <EventHero event={event} />
           </div>
-          <GallerySection
-            event={event}
-            images={images}
-            columns={{ xs: 2, lg: 4 }}
-            isMobile={isMobile}
-          />
+          <GallerySection event={event} images={images} isMobile={isMobile} />
         </MaxWidthContainer>
       </div>
 

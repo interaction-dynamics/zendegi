@@ -1,8 +1,5 @@
-import Event from '@/features/events/types/Event'
-import EventType from '@/features/events/types/EventType'
-import Gallery from '@/features/gallery/types/Gallery'
 import { createKysely } from '@vercel/postgres-kysely'
-import { Generated, ColumnType } from 'kysely'
+import { ColumnType } from 'kysely'
 
 export interface Database {
   events: {
