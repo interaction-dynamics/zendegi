@@ -110,8 +110,6 @@ const DragAndDropLayer: React.FC<DragAndDropLayerProps> = ({ event }) => {
       },
     })
     console.error('Upload failed.')
-
-    // console.log({ imageUrl, signedUrl })
   }
 
   const onDrop = async (event: React.DragEvent<HTMLDivElement>) => {
@@ -120,7 +118,6 @@ const DragAndDropLayer: React.FC<DragAndDropLayerProps> = ({ event }) => {
     const files = [...event.dataTransfer.files]
 
     await Promise.all(files.map(uploadOneFile))
-    // uploadModal.close()
   }
 
   return (

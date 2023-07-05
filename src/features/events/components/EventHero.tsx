@@ -74,7 +74,7 @@ const EventHero: React.FC<EventHeroProps> = ({ event }) => {
       <div className="text-center leading-[4rem] text-primary-500 text-5xl font-curve">
         {spouseB ? (
           <>
-            <h1 className="inline ">Wedding</h1>
+            <h1 className="inline ">Civil Wedding</h1>
             <br />
             <h1 className="inline">{spouseA}</h1>
             <h1 className="inline">
@@ -86,7 +86,7 @@ const EventHero: React.FC<EventHeroProps> = ({ event }) => {
           <h1 className="inline">{title}</h1>
         )}
       </div>
-      <div className="pt-1 text-center text-primary-500 text-4xl font-curve leading-[3rem]">
+      <div className="pt-4 text-center text-primary-500 text-4xl font-curve leading-[3rem]">
         <h2>
           {formatDate(event.date, {
             day: 'numeric',

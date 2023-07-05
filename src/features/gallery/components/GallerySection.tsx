@@ -1,130 +1,88 @@
 'use client'
-import { useRef, useState } from 'react'
-import { Box, styled, Paper, Typography } from '@mui/material'
-import { Masonry, type MasonryProps } from '@mui/lab'
+import { useState } from 'react'
+import Image from 'next/image'
+import { Transition } from '@headlessui/react'
+// import { Masonry, type MasonryProps } from '@mui/lab'
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
+
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/solid'
-import { ArrowSmallUpIcon } from '@heroicons/react/24/outline'
 
 import Picture from '@/features/gallery/types/Picture'
-import useEventListener from '@/hooks/useEventListener'
-import DesktopImagePopup from './DesktopImagePopup'
-
-const StyledImageContainer = styled(Paper)`
-  overflow: hidden;
-  border-radius: 0.5rem;
-
-  position: relative;
-  z-index: 1;
-
-  &:hover {
-    &:after {
-      background: rgba(0, 0, 0, 0.4);
-    }
-    cursor: pointer;
-
-    img {
-      transform: scale(1.05);
-    }
-  }
-`
-
-const StyledOverlay = styled('div')`
-  display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-  transition: all linear 0.1s;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  cursor: pointer;
-  background: rgba(0, 0, 0, 0.4);
-
-  &:hover {
-    opacity: 1;
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0,
-  }
-`
-
-const StyledImage = styled('img')`
-  display: block;
-  width: 100%;
-
-  transition: all linear 0.1s;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-`
+import OneImageVisualizer from './OneImageVisualizer'
+import { usePathname, useRouter } from 'next/navigation'
+import Event from '@/features/events/types/Event'
 
 export interface GallerySectionProps {
+  event: Event
   images: Picture[]
-  children?: React.ReactNode
-  columns: MasonryProps['columns']
+  // columns: MasonryProps['columns']
+  isMobile?: boolean
 }
 
 const GallerySection: React.FC<GallerySectionProps> = ({
+  event,
   images,
-  children,
-  columns,
+  // columns,
+  isMobile,
 }) => {
   const [selectedImage, setSelectecImage] = useState<Picture | undefined>()
 
-  const topOfSectionRef = useRef<HTMLDivElement>(null)
-
-  const titleRef = useRef<HTMLSpanElement>(null)
-
-  const [isOnTop, setInOnTop] = useState(false)
-
-  useEventListener('scroll', () => {
-    setInOnTop((titleRef.current?.getBoundingClientRect().top ?? 100) <= 10)
-  })
-
-  const scrollToTopOfSection = () => {
-    if (!isOnTop) return
-    window.scroll({
-      top: (topOfSectionRef.current?.offsetTop ?? 0) - 100,
-      left: 0,
-      behavior: 'smooth',
-    })
-  }
+  const router = useRouter()
+  const pathname = usePathname()
 
   return (
-    <div
-      className="text-center flex flex-col items-center"
-      ref={topOfSectionRef}
-    >
-      {images.length > 0 ? (
-        <Masonry columns={columns} spacing={2}>
+    <div className="text-center flex flex-col items-center">
+      <ResponsiveMasonry
+        className="w-full"
+        columnsCountBreakPoints={{ 250: 1, 350: 2, 900: 3, 1000: 4 }}
+      >
+        <Masonry>
           {images.map(image => (
-            <StyledImageContainer key={image.url}>
-              <StyledImage
+            <div
+              className="overflow-hidden rounded-md relative m-3"
+              key={image.url}
+            >
+              <Image
+                className="block w-full transition-all hover:scale-105 rounded-md"
                 src={image.url}
                 alt={image.filename}
                 loading="lazy"
+                width={500}
+                height={500}
+                style={{ height: 'auto', objectFit: 'cover' }}
               />
               <div
-                className="absolute inset-0 transition-all flex items-center justify-center bg-black/[.4] text-white opacity-0 hover:opacity-100"
-                onClick={() => setSelectecImage(image)}
+                className="absolute inset-0 transition-all flex items-center justify-center bg-black/[.4] text-white opacity-0 hover:opacity-100 cursor-pointer"
+                onClick={() =>
+                  isMobile
+                    ? router.push(`/events/${event.slug}/${image.slug}`)
+                    : setSelectecImage(image)
+                }
               >
                 <ArrowsPointingOutIcon className="h-8 w-8 stroke-[3px] " />
               </div>
-            </StyledImageContainer>
+            </div>
           ))}
         </Masonry>
-      ) : (
-        children
-      )}
-      {
-        <DesktopImagePopup
-          image={selectedImage}
-          open={Boolean(selectedImage)}
-          onClose={() => setSelectecImage(undefined)}
-        />
-      }
+      </ResponsiveMasonry>
+      <Transition
+        show={Boolean(selectedImage)}
+        enter="transition-opacity duration-75 relative z-50"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-150"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        tabIndex={0}
+      >
+        <div className="fixed inset-0 z-50">
+          <OneImageVisualizer
+            image={selectedImage}
+            onClose={() => setSelectecImage(undefined)}
+            onBack={() => setSelectecImage(undefined)}
+          />
+        </div>
+      </Transition>
     </div>
   )
 }
