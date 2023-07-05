@@ -46,8 +46,6 @@ const Event: React.FC<EventProps> = async ({ params }) => {
 
   const isMobile = getIsSsrMobile()
 
-  console.log('isMobile', isMobile)
-
   return (
     <div className="min-h-screen flex flex-col items-stretch">
       <div className="flex-1 w-full">
