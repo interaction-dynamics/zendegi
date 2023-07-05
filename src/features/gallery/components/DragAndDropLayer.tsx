@@ -1,6 +1,6 @@
 'use client'
 import { ArrowDownTrayIcon } from '@heroicons/react/24/solid'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Transition } from '@headlessui/react'
 
 import Event from '@/features/events/types/Event'
@@ -44,6 +44,10 @@ const DragAndDropLayer: React.FC<DragAndDropLayerProps> = ({ event }) => {
     Record<string, { filename: string; status: FileUploadStatus }>
   >({})
 
+  const realtimeUploadindFiles = useRef<
+    Record<string, { filename: string; status: FileUploadStatus }>
+  >({})
+
   const uploadOneFile = async (file: File, index: number) => {
     const filename = file.name
     const fileType = file.type
@@ -52,8 +56,15 @@ const DragAndDropLayer: React.FC<DragAndDropLayerProps> = ({ event }) => {
       return
     }
 
+    realtimeUploadindFiles.current = {
+      ...realtimeUploadindFiles.current,
+      [`${index}`]: {
+        filename: file.name,
+        status: FileUploadStatus.IN_PROGRESS,
+      },
+    }
     setUploadingFiles({
-      ...uploadingFiles,
+      ...realtimeUploadindFiles.current,
       [`${index}`]: {
         filename: file.name,
         status: FileUploadStatus.IN_PROGRESS,
@@ -92,8 +103,15 @@ const DragAndDropLayer: React.FC<DragAndDropLayerProps> = ({ event }) => {
       const { errors } = await response.json()
 
       if (!errors) {
+        realtimeUploadindFiles.current = {
+          ...realtimeUploadindFiles.current,
+          [`${index}`]: {
+            filename: file.name,
+            status: FileUploadStatus.COMPLETED,
+          },
+        }
         setUploadingFiles({
-          ...uploadingFiles,
+          ...realtimeUploadindFiles.current,
           [`${index}`]: {
             filename: file.name,
             status: FileUploadStatus.COMPLETED,
@@ -102,8 +120,15 @@ const DragAndDropLayer: React.FC<DragAndDropLayerProps> = ({ event }) => {
         return
       }
     }
+    realtimeUploadindFiles.current = {
+      ...realtimeUploadindFiles.current,
+      [`${index}`]: {
+        filename: file.name,
+        status: FileUploadStatus.FAILED,
+      },
+    }
     setUploadingFiles({
-      ...uploadingFiles,
+      ...realtimeUploadindFiles.current,
       [`${index}`]: {
         filename: file.name,
         status: FileUploadStatus.FAILED,
