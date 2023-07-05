@@ -82,7 +82,6 @@ const GallerySection: React.FC<GallerySectionProps> = ({
         <div className="fixed inset-0 z-50">
           <OneImageVisualizer
             image={selectedImage}
-            event={event}
             onClose={() => setSelectecImage(undefined)}
             onBack={() => setSelectecImage(undefined)}
           />
