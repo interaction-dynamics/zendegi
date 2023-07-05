@@ -11,6 +11,8 @@ const last = (array: string[]) => array[array.length - 1]
  * https://stackoverflow.com/questions/67127375/s3-getsignedurl-v2-equivalent-in-aws-javascript-sdk-v3
  */
 export async function POST(request: NextRequest) {
+  return NextResponse.json({ error: 'forbidden' }, { status: 401 })
+
   try {
     const { filename, fileType, eventSlug } = await request.json()
 

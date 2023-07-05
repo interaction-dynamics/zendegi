@@ -8,7 +8,7 @@ import MaxWidthContainer from '@/components/atoms/MaxWidthContainer'
 import EventHero from '@/features/events/components/EventHero'
 import GallerySection from '@/features/gallery/components/GallerySection'
 import * as aws from '@/services/aws'
-import DragAndDropLayer from '@/features/gallery/components/DragAndDropLayer'
+// import DragAndDropLayer from '@/features/gallery/components/DragAndDropLayer'
 import EventNotFound from '@/features/events/components/EventNotFound'
 
 const getIsSsrMobile = () => {
@@ -59,7 +59,7 @@ const Event: React.FC<EventProps> = async ({ params }) => {
         </MaxWidthContainer>
       </div>
 
-      <DragAndDropLayer event={event} />
+      {/* <DragAndDropLayer event={event} /> */}
       <footer className="bg-white mt-20 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">
         <MaxWidthContainer className="max-w-screen-2xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
           <div className="flex items-center justify-center space-x-6 md:order-2">
