@@ -24,6 +24,7 @@ export async function seed() {
         date: '2023-06-12',
         location: 'Montréal',
         slug: 'paria-and-thibault-521aec27-7aa0-4697-ac12-b659daf55023',
+        imageUrl: '078078eb-5118-40c4-b14a-a7927eb799dc.jpeg',
       },
     ])
     .execute()

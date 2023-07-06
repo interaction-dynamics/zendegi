@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { seed } from '@/services/kysely/seed'
 
 export async function POST(request: Request) {
+  return NextResponse.json({ error: 'forbidden' }, { status: 401 })
+
   try {
     const s = await seed()
 
