@@ -33,7 +33,7 @@ const OneImageView: React.FC<EventProps> = async ({ params }) => {
     return <>Image not found</>
   }
 
-  image = aws.rewriteUrl(event)(image)
+  image = aws.rewriteImageUrl(event)(image)
 
   return (
     <div className="fixed inset-0 z-50">

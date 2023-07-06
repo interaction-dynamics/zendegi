@@ -8,6 +8,7 @@ export interface Database {
     date: ColumnType<Date, string | undefined>
     location: string
     slug: string
+    imageUrl: string
     // ownerId: number
   }
   pictures: {

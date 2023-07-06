@@ -19,20 +19,11 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const event = await db
     .selectFrom('events')
-    .select(['id', 'title', 'slug', 'date', 'location'])
+    .select(['id', 'title', 'slug', 'date', 'location', 'imageUrl'])
     .where('events.slug', '=', params.eventSlug)
     .executeTakeFirst()
 
-  let image = await db
-    .selectFrom('pictures')
-    .select(['id', 'filename', 'url'])
-    .where('pictures.eventId', '=', event?.id ?? '')
-    .executeTakeFirst()
-
-  const images = event && image ? [aws.rewriteUrl(event)(image)] : []
-
-  // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || []
+  const images = event ? [aws.rewriteUrl(event, event.imageUrl)] : []
 
   return {
     title: `${event?.title} - Zendegi`,

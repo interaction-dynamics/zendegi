@@ -42,7 +42,7 @@ const Event: React.FC<EventProps> = async ({ params }) => {
     .where('pictures.eventId', '=', event.id)
     .execute()
 
-  images = images.map(aws.rewriteUrl(event))
+  images = images.map(aws.rewriteImageUrl(event))
 
   const isMobile = getIsSsrMobile()
 
