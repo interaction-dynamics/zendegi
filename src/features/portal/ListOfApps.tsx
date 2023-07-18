@@ -17,8 +17,6 @@ const apps = [
 ]
 
 const ListOfApps: React.FC = () => {
-  if (typeof document !== 'object') return <></>
-
   return (
     <div className="py-5 flex items-center justify-center pt-7 gap-10">
       {apps.map(app => (
