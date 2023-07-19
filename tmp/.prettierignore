@@ -11,5 +11,3 @@ playwright-report
 pnpm-lock.yaml
 dist
 .next
-.vercel
-tmp
