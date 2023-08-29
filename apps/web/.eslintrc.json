@@ -1,6 +1,7 @@
 {
   "extends": ["next/core-web-vitals", "zendegi"],
   "rules": {
-    "@next/next/no-html-link-for-pages": ["error", "apps/web"]
+    "@next/next/no-html-link-for-pages": ["error", "apps/web"],
+    "react/prop-types": "off"
   }
 }
