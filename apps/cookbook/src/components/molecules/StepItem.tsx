@@ -24,10 +24,11 @@ export function StepItem({
       >
         <span className="h-9 flex items-center">{icon}</span>
         <div className="ms-4 min-w-0 flex flex-col">
-          <div className="text-sm ltr:text-left rtl:text-right select-text text-gray-500" />
-          {description}
+          <div className="text-sm ltr:text-left rtl:text-right select-text text-gray-500">
+            {description}
+          </div>
+          {children}
         </div>
-        {children}
       </button>
     </li>
   )
